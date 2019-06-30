@@ -77,16 +77,43 @@ namespace MidReader
                         }
                     }else if(type >= 0x90 && type < 0xA0)
                     {
-                        e.Type = EventTypes.Note;
+                        e.Type = EventTypes.PressKey;
                         e.Key = ReadByte(data);
                         e.Strength = ReadByte(data);
                         _BeginNote = true;
                     }
+                    else if (type >= 0x80 && type < 0x90)
+                    {
+                        e.Type = EventTypes.RaiseKey;
+                        e.Key = ReadByte(data);
+                        e.Strength = ReadByte(data);
+                    }
+                    else if(type >= 0xC0 && type < 0xD0)
+                    {
+                        e.Type = EventTypes.ChangeInstrument;
+                        ReadByte(data);
+                    }
+                    else if (type >= 0xB0 && type < 0xC0)
+                    {
+                        e.Type = EventTypes.Controller;
+                        ReadByte(data);
+                        ReadByte(data);
+                    }
+                    else if (type >= 0xE0 && type < 0xF0)
+                    {
+                        e.Type = EventTypes.Glide;
+                        ReadByte(data);
+                        ReadByte(data);
+                    }
                     else if (type <= 0x7F)
                     {
-                        e.Type = EventTypes.Note;
+                        e.Type = EventTypes.PressKey;
                         e.Key = type;
                         e.Strength = ReadByte(data);
+                    }
+                    else
+                    {
+                        Console.WriteLine(type);
                     }
                     track.events.Add(e);
                 }

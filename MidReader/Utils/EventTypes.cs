@@ -7,8 +7,12 @@ namespace MidReader.Utils
 {
     public enum EventTypes
     {
-        Note,
+        PressKey,
+        RaiseKey,
+        ChangeInstrument,
+        Controller,
         BeginInput,
+        Glide,
         Other
     }
 }
